@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 
 def github_json(user,repo):
     requests_path = 'https://github.com/' + user + '/' +repo + '/blob/master/friendlist.json'
+    requests_path.encoding = 'utf-8'
     gitpage = requests.get(requests_path).text
     soup = BeautifulSoup(gitpage, 'html.parser')
     main_content = soup.find('td',id = 'LC1').text
