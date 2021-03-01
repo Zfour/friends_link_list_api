@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import requests
 import re
+import json
 from http.server import BaseHTTPRequestHandler
 from bs4 import BeautifulSoup
 
@@ -9,7 +10,7 @@ def github_json(user,repo):
     gitpage = requests.get(requests_path).text
     soup = BeautifulSoup(gitpage, 'html.parser')
     main_content = soup.find('td',id = 'LC1').text
-    print(main_content)
+    return main_content
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
