@@ -12,7 +12,8 @@ def github_json(user,repo):
     gitpage = r.text
     soup = BeautifulSoup(gitpage, 'html.parser')
     main_content = soup.find('td',id = 'LC1').text
-    return main_content
+    result = json.loads(main_content)
+    return result
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
