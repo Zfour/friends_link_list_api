@@ -21,7 +21,6 @@ class handler(BaseHTTPRequestHandler):
         user = user_reg.findall(path)[0]
         repo = repo_reg.findall(path)[0]
         data = github_json(user,repo)
-        data = eval("'{}'".format(data))
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Content-type', 'text/plain')
