@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 import requests
+import re
 import json
 from http.server import BaseHTTPRequestHandler
 from bs4 import BeautifulSoup
@@ -14,34 +15,20 @@ def github_json(user,repo,branch):
     result = json.loads(main_content)
     return result
 
-def url_split(url):
-    info_list = []
-    url_text_list = url.split('/')
-    if len(url_text_list) == 7:
-        info_list.append(url_text_list[4])
-        info_list.append(url_text_list[5])
-        info_list.append(url_text_list[6])
-    if len(url_text_list) == 6:
-        info_list.append(url_text_list[4])
-        info_list.append(url_text_list[5])
-        info_list.append('master')
-    if len(url_text_list) == 5:
-        info_list.append(url_text_list[4])
-        info_list.append('friends')
-        info_list.append('master')
-    return info_list
-
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path
-        info_list = url_split(url)
-        try:
-            user = info_list[0]
-            repo = info_list[1]
-            branch = info_list[2]
-            data = github_json(user,repo,branch)
-        except:
-            data =['message':'error']
+        path = path.replace("'", '"')
+        user = ''
+        repo = 'friends'
+        branch = 'master'
+        repo_reg = re.compile(r'repo="(.*?)"')
+        user_reg = re.compile(r'user="(.*?)"')
+        branch_reg = re.compile(r'branch="(.*?)"')
+        user = user_reg.findall(path)[0]
+        repo = repo_reg.findall(path)[0]
+        branch = branch_reg.findall(path)[0]
+        data = github_json(user,repo)
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Content-type', 'application/json')
