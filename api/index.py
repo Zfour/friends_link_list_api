@@ -1,3 +1,10 @@
+# -*- coding: UTF-8 -*-
+import requests
+import re
+import json
+from http.server import BaseHTTPRequestHandler
+from bs4 import BeautifulSoup
+
 def github_json(user,repo,branch):
     if user =='':
         result = '用户不能为空！'
