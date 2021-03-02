@@ -12,7 +12,7 @@ def github_json(user,repo,branch):
         try:
             if repo =='':
                 repo = 'friends'
-            if branch ==''
+            if branch =='':
                 branch = 'master'
             requests_path = 'https://github.com/' + user + '/' +repo + '/blob/'+branch+'/friendlist.json'
             r = requests.get(requests_path)
