@@ -1,13 +1,6 @@
-# -*- coding: UTF-8 -*-
-import requests
-import re
-import json
-from http.server import BaseHTTPRequestHandler
-from bs4 import BeautifulSoup
-
 def github_json(user,repo,branch):
     if user =='':
-        result = json.loads("['error':'用户为空']")
+        result = '用户不能为空！'
     else:
         try:
             if repo =='':
@@ -22,7 +15,7 @@ def github_json(user,repo,branch):
             main_content = soup.find('td',id = 'LC1').text
             result = json.loads(main_content)
         except:
-            result = json.loads("['error':'参数填入有误']")
+            result = '用户参数输入有误！请检查'
     return result
 
 class handler(BaseHTTPRequestHandler):
@@ -32,9 +25,19 @@ class handler(BaseHTTPRequestHandler):
         repo_reg = re.compile(r'repo="(.*?)"')
         user_reg = re.compile(r'user="(.*?)"')
         branch_reg = re.compile(r'branch="(.*?)"')
-        user = user_reg.findall(path)[0]
-        repo = repo_reg.findall(path)[0]
-        branch = branch_reg.findall(path)[0]
+        if user_reg.findall(path):
+            user = user_reg.findall(path)[0]
+        else:
+            user = ''
+        data = 'error'
+        if repo_reg.findall(path):
+            repo = repo_reg.findall(path)[0]
+        else:
+            repo = 'friends'
+        if branch_reg.findall(path):
+            branch = branch_reg.findall(path)[0]
+        else:
+            branch = 'master'
         data = github_json(user,repo,branch)
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
