@@ -29,7 +29,6 @@ class handler(BaseHTTPRequestHandler):
             user = user_reg.findall(path)[0]
         else:
             user = ''
-            data = 'error'
         if repo_reg.findall(path):
             repo = repo_reg.findall(path)[0]
         else:
