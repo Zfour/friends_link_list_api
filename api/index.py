@@ -35,7 +35,7 @@ class handler(BaseHTTPRequestHandler):
         user = user_reg.findall(path)[0]
         repo = repo_reg.findall(path)[0]
         branch = branch_reg.findall(path)[0]
-        data = github_json(user,repo，branch)
+        data = github_json(user,repo,branch)
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Content-type', 'application/json')
